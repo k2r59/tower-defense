@@ -1,0 +1,9 @@
+# Godot : dossier de travail du moteur, reconstruit à chaque ouverture.
+.godot/
+
+# Exports et réglages d'export (ils portent des chemins de signature).
+/build/
+/export/
+export_presets.cfg
+
+.DS_Store

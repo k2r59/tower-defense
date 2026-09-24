@@ -1,0 +1,38 @@
+; Les Gardiens des Sources — configuration du projet.
+;
+; Ce fichier est lu par Godot au démarrage. Il n'a pas besoin d'être modifié à
+; la main : l'éditeur le réécrit quand on change un réglage.
+
+config_version=5
+
+[application]
+
+config/name="Les Gardiens des Sources"
+run/main_scene="res://scenes/jeu.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+Partie="*res://scripts/partie.gd"
+
+[display]
+
+; La taille de référence est celle d'un iPhone récent, en points : tout est
+; dessiné pour cet écran-là, et le moteur met à l'échelle pour les autres.
+window/size/viewport_width=390
+window/size/viewport_height=844
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[rendering]
+
+; Le rendu de compatibilité : c'est celui qui passe partout sur mobile, y
+; compris sur les appareils plus anciens.
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

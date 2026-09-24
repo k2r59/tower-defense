@@ -1,0 +1,35 @@
+{
+  "_lisez_moi": "La table d'équilibrage. C'est ICI qu'on règle le jeu, pas dans le code. Modifier un chiffre et relancer suffit : rien à recompiler.",
+
+  "tours": {
+    "archers": {
+      "nom": "Tour d'archers",
+      "couleur": "#5fd39a",
+      "cout": 50,
+      "niveaux": [
+        { "degats": 8,  "portee": 115, "cadence": 0.80, "cout_amelioration": 60 },
+        { "degats": 14, "portee": 130, "cadence": 0.70, "cout_amelioration": 100 },
+        { "degats": 22, "portee": 145, "cadence": 0.60, "cout_amelioration": null }
+      ],
+      "projectile": { "vitesse": 420, "couleur": "#e8f4a0" }
+    }
+  },
+
+  "ennemis": {
+    "gobelin": {
+      "nom": "Gobelin des bois",
+      "couleur": "#7cc45a",
+      "vie": 40,
+      "vitesse": 46,
+      "prime": 8,
+      "degats_sortie": 1,
+      "rayon": 11
+    }
+  },
+
+  "_a_venir": {
+    "_note": "Débloqués aux niveaux suivants — voir la courbe de progression. Laissés ici pour mémoire, le niveau 1 ne les utilise pas.",
+    "loup": { "vie": 26, "vitesse": 92, "prime": 10, "degats_sortie": 1, "rayon": 10, "couleur": "#a878e0" },
+    "arbre": { "vie": 160, "vitesse": 24, "prime": 25, "degats_sortie": 3, "rayon": 16, "couleur": "#8a6b45" }
+  }
+}

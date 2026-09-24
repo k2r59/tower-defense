@@ -1,0 +1,36 @@
+{
+  "_lisez_moi": "Le niveau, en données. Le chemin est une suite de points que les ennemis suivent ; les emplacements sont les cercles où l'on peut construire. Une image de décor viendra se poser DERRIÈRE tout ça, sans jamais remplacer ces coordonnées.",
+
+  "id": "niveau-01",
+  "nom": "Le sentier des racines",
+
+  "vies": 20,
+  "or_depart": 120,
+
+  "chemin": [
+    [ 40, -40],
+    [ 40, 200],
+    [300, 200],
+    [300, 420],
+    [ 90, 420],
+    [ 90, 620],
+    [340, 620],
+    [340, 900]
+  ],
+
+  "emplacements": [
+    [150, 140],
+    [230, 300],
+    [175, 520],
+    [270, 520],
+    [155, 720]
+  ],
+
+  "vagues": [
+    { "pause": 4.0, "groupes": [ { "type": "gobelin", "nombre": 4,  "intervalle": 1.4 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "gobelin", "nombre": 6,  "intervalle": 1.2 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "gobelin", "nombre": 8,  "intervalle": 1.0 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "gobelin", "nombre": 10, "intervalle": 0.9 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "gobelin", "nombre": 14, "intervalle": 0.7 } ] }
+  ]
+}
