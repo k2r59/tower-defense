@@ -1,0 +1,73 @@
+{
+  "_lisez_moi": "Le sanctuaire : ce que les essences achètent, et qui reste acquis d'une partie à l'autre. Comme le reste, ça se règle ici, pas dans le code.",
+
+  "_regle_d_or": "Chaque niveau doit être gagnable avec ZÉRO amélioration. Ces nœuds donnent du confort et ouvrent des façons de jouer, jamais un passage obligé. Si un niveau exige d'en acheter, c'est le niveau qui est mal réglé, pas le joueur qui est mal équipé.",
+
+  "_reattribution": "Tout se reprend, gratuitement et à tout moment. On supprime ainsi l'angoisse du mauvais choix définitif et le besoin de lire un guide avant de jouer.",
+
+  "noeuds": [
+    {
+      "id": "degats-1",
+      "nom": "Pointes affûtées",
+      "description": "Toutes les tours frappent 10 % plus fort.",
+      "cout": 1,
+      "effet": { "cle": "degats_pct", "valeur": 0.10 },
+      "ouvre_apres": "niveau-02",
+      "prerequis": null
+    },
+    {
+      "id": "portee-1",
+      "nom": "Guet surélevé",
+      "description": "Toutes les tours voient 10 % plus loin.",
+      "cout": 1,
+      "effet": { "cle": "portee_pct", "valeur": 0.10 },
+      "ouvre_apres": "niveau-02",
+      "prerequis": null
+    },
+    {
+      "id": "cadence-1",
+      "nom": "Gestes répétés",
+      "description": "Toutes les tours tirent 8 % plus vite.",
+      "cout": 2,
+      "effet": { "cle": "cadence_pct", "valeur": -0.08 },
+      "ouvre_apres": "niveau-03",
+      "prerequis": "degats-1"
+    },
+    {
+      "id": "or-depart",
+      "nom": "Réserve du sanctuaire",
+      "description": "Chaque niveau commence avec 25 or de plus.",
+      "cout": 2,
+      "effet": { "cle": "or_depart", "valeur": 25 },
+      "ouvre_apres": "niveau-03",
+      "prerequis": null
+    },
+    {
+      "id": "prime-1",
+      "nom": "Dépouilles",
+      "description": "Chaque ennemi abattu rapporte 15 % de plus.",
+      "cout": 3,
+      "effet": { "cle": "prime_pct", "valeur": 0.15 },
+      "ouvre_apres": "niveau-04",
+      "prerequis": "or-depart"
+    },
+    {
+      "id": "degats-2",
+      "nom": "Runes de fracture",
+      "description": "Encore 15 % de dégâts, pour toutes les tours.",
+      "cout": 3,
+      "effet": { "cle": "degats_pct", "valeur": 0.15 },
+      "ouvre_apres": "niveau-04",
+      "prerequis": "cadence-1"
+    },
+    {
+      "id": "reprise",
+      "nom": "Démontage soigneux",
+      "description": "Vendre une tour rend la totalité de ce qu'elle a coûté.",
+      "cout": 3,
+      "effet": { "cle": "reprise_pct", "valeur": 1.0 },
+      "ouvre_apres": "niveau-05",
+      "prerequis": null
+    }
+  ]
+}

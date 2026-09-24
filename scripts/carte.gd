@@ -55,6 +55,25 @@ func _ready() -> void:
 		rangee.add_child(_carton(n, etoiles, precedent_fini))
 		precedent_fini = etoiles > 0
 
+	var pied := HBoxContainer.new()
+	pied.add_theme_constant_override("separation", 10)
+	pied.position = Vector2(24, 300)
+	add_child(pied)
+
+	var b := Button.new()
+	b.custom_minimum_size = Vector2(180, 34)
+	b.add_theme_font_size_override("font_size", 13)
+	if Partie.sanctuaire_ouvert():
+		b.text = "Le sanctuaire  ✦ %d" % Partie.essences
+		b.pressed.connect(func() -> void:
+				get_tree().change_scene_to_file("res://scenes/sanctuaire.tscn"))
+	else:
+		# On ne grise pas un bouton sans dire pourquoi : le joueur croirait à
+		# une panne. On annonce la condition, et elle devient un objectif.
+		b.text = "Sanctuaire — au niveau 2"
+		b.disabled = true
+	pied.add_child(b)
+
 	_rafraichir_essences()
 
 	# En mode d'essai, on ne s'arrête pas sur la carte : le test joue un niveau.

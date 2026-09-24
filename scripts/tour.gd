@@ -55,7 +55,8 @@ func ameliorer() -> bool:
 const PART_REPRISE := 0.6
 
 func valeur_reprise() -> int:
-	return int(floor(investi * PART_REPRISE))
+	var part := minf(1.0, PART_REPRISE + Partie.bonus("reprise_pct"))
+	return int(floor(investi * part))
 
 
 ## Ce que coûte le palier suivant, ou -1 s'il n'y en a plus.
@@ -67,12 +68,18 @@ func cout_amelioration() -> int:
 	return -1 if c == null else int(c)
 
 
+## Le palier, puis ce que le sanctuaire y ajoute.
+##
+## Les bonus s'appliquent ici et nulle part ailleurs : une seule porte d'entree
+## pour tout ce qui modifie une tour. Rejouer un niveau apres un achat suffit
+## donc a le voir agir, sans toucher a l'equilibrage des donnees.
 func _appliquer_niveau(n: int) -> void:
 	niveau = n
 	var palier: Dictionary = reglages["niveaux"][n]
-	degats = float(palier["degats"])
-	portee = float(palier["portee"])
-	cadence = float(palier["cadence"])
+	degats = float(palier["degats"]) * (1.0 + Partie.bonus("degats_pct"))
+	portee = float(palier["portee"]) * (1.0 + Partie.bonus("portee_pct"))
+	# La cadence est un DELAI : un bonus negatif la raccourcit, donc accelere.
+	cadence = maxf(0.08, float(palier["cadence"]) * (1.0 + Partie.bonus("cadence_pct")))
 	queue_redraw()
 
 

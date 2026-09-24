@@ -67,15 +67,38 @@ donnees/               les deux fichiers à régler
 Deux parties automatiques, utiles après chaque modification :
 
 ```bash
-# avec des tours : doit se gagner
+# avec des tours : doit se gagner, et la revente doit rendre son dû
 godot --headless --path . -- --test
 
 # sans aucune tour : doit se perdre
 godot --headless --path . -- --test --test-passif
+
+# le sanctuaire : ouverture, achat, prérequis, reprise des essences
+godot --headless --path . --script res://scripts/test_sanctuaire.gd
 ```
 
 La seconde compte autant que la première : un niveau qu'on gagne sans rien
 faire n'est pas un niveau.
+
+## Le sanctuaire
+
+Les essences gagnées en finissant un niveau s'y dépensent, et elles seules.
+Trois choses le rendent jouable plutôt que subi :
+
+- **Il n'existe pas avant le deuxième niveau.** Un écran de choix devant
+  quelqu'un qui n'a pas encore posé sa première tour ne décide rien.
+- **Les nœuds s'ouvrent au fil des niveaux**, et certains demandent un
+  prérequis : on en voit trois à la fois, jamais vingt.
+- **Tout se reprend gratuitement, à tout moment.** C'est ce qui supprime
+  l'angoisse du mauvais choix définitif — et le besoin de lire un guide avant
+  de dépenser.
+
+La règle qui protège l'équilibrage : **chaque niveau doit être gagnable avec
+zéro amélioration**. Le sanctuaire donne du confort et ouvre des façons de
+jouer, jamais un passage obligé. Si un niveau exige d'y passer, c'est le
+niveau qui est mal réglé.
+
+Ce qu'on y achète se règle dans `donnees/ameliorations.json`.
 
 ## La suite
 

@@ -82,6 +82,92 @@ func terminer_niveau(id: String, vies_restantes: int, vies_depart: int, or_resta
 	return { "etoiles": etoiles, "essences_gagnees": gagnees, "deja_obtenues": avant }
 
 
+# --- Le sanctuaire ---------------------------------------------------------
+
+const CHEMIN_AMELIORATIONS := "res://donnees/ameliorations.json"
+
+var _noeuds_cache: Array = []
+
+## Les nœuds tels qu'ils sont écrits dans les données.
+func noeuds() -> Array:
+	if _noeuds_cache.is_empty():
+		var lu: Variant = JSON.parse_string(FileAccess.get_file_as_string(CHEMIN_AMELIORATIONS))
+		if typeof(lu) == TYPE_DICTIONARY:
+			_noeuds_cache = lu.get("noeuds", [])
+	return _noeuds_cache
+
+
+func noeud(id: String) -> Dictionary:
+	for n: Dictionary in noeuds():
+		if str(n["id"]) == id:
+			return n
+	return {}
+
+
+func achete(id: String) -> bool:
+	return ameliorations.get(id, false) == true
+
+
+## Un nœud s'ouvre quand le niveau qui le déverrouille est terminé, et quand
+## son prérequis est acheté. Deux verrous, pour la même raison : on ne montre
+## une décision qu'au moment où le joueur a une opinion dessus.
+func noeud_ouvert(n: Dictionary) -> bool:
+	var apres: Variant = n.get("ouvre_apres")
+	if apres != null and int(niveaux.get(str(apres), {}).get("etoiles", 0)) == 0:
+		return false
+	var prereq: Variant = n.get("prerequis")
+	return prereq == null or achete(str(prereq))
+
+
+## Le sanctuaire n'existe pas avant d'avoir fini le deuxième niveau : sinon le
+## joueur ouvrirait un écran de choix avant d'avoir posé sa première tour.
+func sanctuaire_ouvert() -> bool:
+	for n: Dictionary in noeuds():
+		if noeud_ouvert(n):
+			return true
+	return false
+
+
+func acheter(id: String) -> bool:
+	var n := noeud(id)
+	if n.is_empty() or achete(id) or not noeud_ouvert(n):
+		return false
+	var cout := int(n["cout"])
+	if essences < cout:
+		return false
+	essences -= cout
+	ameliorations[id] = true
+	enregistrer()
+	return true
+
+
+## Tout reprendre, sans frais.
+##
+## C'est ce qui supprime l'angoisse du mauvais choix définitif : on essaie une
+## orientation, on la défait, on en essaie une autre. Sans cela, le joueur
+## prudent va lire un guide avant de dépenser — et jouer devient une
+## vérification, plus une découverte.
+func tout_reprendre() -> void:
+	for id: String in ameliorations.keys():
+		var n := noeud(id)
+		if not n.is_empty():
+			essences += int(n["cout"])
+	ameliorations = {}
+	enregistrer()
+
+
+## La somme des effets achetés, pour une clé donnée.
+func bonus(cle: String) -> float:
+	var total := 0.0
+	for n: Dictionary in noeuds():
+		if not achete(str(n["id"])):
+			continue
+		var effet: Dictionary = n.get("effet", {})
+		if str(effet.get("cle", "")) == cle:
+			total += float(effet.get("valeur", 0.0))
+	return total
+
+
 ## Remettre à zéro, pour les essais.
 func effacer() -> void:
 	essences = 0

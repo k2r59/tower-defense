@@ -55,7 +55,7 @@ func _ready() -> void:
 
 	vies_depart = int(niveau["vies"])
 	vies = vies_depart
-	argent = int(niveau["or_depart"])
+	argent = int(niveau["or_depart"]) + int(Partie.bonus("or_depart"))
 
 	ath.demande_amelioration.connect(_sur_amelioration)
 	ath.demande_reprise.connect(_sur_reprise)
@@ -118,7 +118,7 @@ func _faire_naitre(type: String) -> void:
 
 
 func _sur_mort(e: Ennemi) -> void:
-	argent += e.prime
+	argent += int(round(e.prime * (1.0 + Partie.bonus("prime_pct"))))
 	ennemis.erase(e)
 	ath.rafraichir(self)
 	_verifier_victoire()
