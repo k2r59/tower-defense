@@ -30,14 +30,14 @@ func _ready() -> void:
 
 	# Le message passager : « pas assez d'or », et il s'efface tout seul.
 	_message = _etiquette("", Color("#ffffff"))
-	_message.position = Vector2(16, 806)
-	_message.size = Vector2(358, 24)
+	_message.position = Vector2(16, 352)
+	_message.size = Vector2(812, 24)
 	_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_message)
 
 	_fin = _etiquette("", Color("#ffffff"))
-	_fin.position = Vector2(20, 360)
-	_fin.size = Vector2(350, 140)
+	_fin.position = Vector2(247, 120)
+	_fin.size = Vector2(350, 150)
 	_fin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_fin.add_theme_font_size_override("font_size", 22)
 	_fin.visible = false

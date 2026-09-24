@@ -1,5 +1,6 @@
 {
   "_lisez_moi": "Le niveau, en données. Le chemin est une suite de points que les ennemis suivent ; les emplacements sont les cercles où l'on peut construire. Une image de décor viendra se poser DERRIÈRE tout ça, sans jamais remplacer ces coordonnées.",
+  "_ecran": "Paysage, 844 × 390 points. Le chemin entre par la gauche et sort par la droite : c'est le sens de lecture, et il laisse au joueur le temps de voir arriver.",
 
   "id": "niveau-01",
   "nom": "Le sentier des racines",
@@ -8,22 +9,24 @@
   "or_depart": 120,
 
   "chemin": [
-    [ 40, -40],
-    [ 40, 200],
-    [300, 200],
-    [300, 420],
-    [ 90, 420],
-    [ 90, 620],
-    [340, 620],
-    [340, 900]
+    [ -40, 120],
+    [ 150, 120],
+    [ 150, 300],
+    [ 380, 300],
+    [ 380, 100],
+    [ 600, 100],
+    [ 600, 300],
+    [ 884, 300]
   ],
 
+  "_emplacements": "Chacun est posé à 50-70 px du chemin, pour une portée de tour de 115 : la tour doit couvrir un ARC de trajet, pas un point. Plus loin, elle tire trois fois par passage et le niveau devient ingagnable.",
   "emplacements": [
-    [150, 140],
-    [230, 300],
-    [175, 520],
-    [270, 520],
-    [155, 720]
+    [  90, 190],
+    [ 210, 235],
+    [ 320, 245],
+    [ 460, 165],
+    [ 545,  48],
+    [ 672, 238]
   ],
 
   "vagues": [

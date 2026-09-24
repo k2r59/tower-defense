@@ -275,7 +275,7 @@ sparks and small shards. Centred, symmetrical, no object in the middle.
 ## 4. Le décor de la map, en couches
 
 Une image par couche, **au format de l'écran** : remplace la ligne OUTPUT par
-`OUTPUT: vertical image, 1170 x 2532 pixels.` Et pour ces quatre-là seulement,
+`OUTPUT: horizontal image, 2532 x 1170 pixels.` Et pour ces quatre-là seulement,
 supprime la contrainte de fond magenta sur la première.
 
 **Couche 1 — le sol** (la seule sans fond magenta)
@@ -300,16 +300,16 @@ Everything outside the path is flat uniform magenta #FF00FF.
 ```
 SUBJECT: a set of background forest elements for a top-down game map: distant
 giant tree trunks, elven stone ruins, a broken arch, a small glowing spring.
-Arranged along the TOP and LEFT edges of the frame only, the centre completely
-empty. Everything else flat uniform magenta #FF00FF.
+WIDE HORIZONTAL LAYOUT: arranged in a band along the TOP edge only, spread
+evenly from left to right. The middle and bottom stay completely empty. Everything else flat uniform magenta #FF00FF.
 ```
 
 **Couche 4 — devant** (les ennemis passent derrière)
 ```
 SUBJECT: foreground forest foliage for a top-down game map: large fern leaves,
 hanging vines and low branches, seen from above, slightly out of focus.
-Arranged along the BOTTOM and RIGHT edges of the frame only, the centre
-completely empty. Everything else flat uniform magenta #FF00FF.
+WIDE HORIZONTAL LAYOUT: arranged in a band along the BOTTOM edge only, spread
+evenly from left to right. The middle and top stay completely empty. Everything else flat uniform magenta #FF00FF.
 ```
 
 **L'emplacement de construction vide**

@@ -244,7 +244,7 @@ func _sur_tir(tour: Tour, cible: Ennemi) -> void:
 func _draw() -> void:
 	# Des formes, pas des images. Quand les dessins arriveront, ce `_draw`
 	# disparaîtra au profit de Sprite2D — la logique, elle, ne bougera pas.
-	draw_rect(Rect2(Vector2(-200, -200), Vector2(800, 1300)), Color("#1b2a1f"))
+	draw_rect(Rect2(Vector2(-200, -200), Vector2(1300, 800)), Color("#1b2a1f"))
 	draw_polyline(chemin, Color("#6b5433"), 34.0)
 	draw_polyline(chemin, Color("#8a6d44"), 28.0)
 
