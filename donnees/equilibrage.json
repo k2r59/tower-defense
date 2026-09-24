@@ -1,9 +1,12 @@
 {
   "_lisez_moi": "La table d'équilibrage. C'est ICI qu'on règle le jeu, pas dans le code. Modifier un chiffre et relancer suffit : rien à recompiler.",
 
+  "_une_idee_par_niveau": "Chaque tour et chaque ennemi existe pour poser UNE question au joueur. Si deux lignes de ce fichier posent la même, il y en a une de trop.",
+
   "tours": {
     "archers": {
       "nom": "Tour d'archers",
+      "_note": "La tour de base : honnête partout, décisive nulle part. Elle tire vite et pour pas cher, donc elle nettoie la piétaille. Contre un ennemi blindé, ses petites flèches s'écrasent — c'est voulu, c'est ce qui fait exister le canon.",
       "couleur": "#5fd39a",
       "cout": 50,
       "niveaux": [
@@ -12,24 +15,72 @@
         { "degats": 22, "portee": 145, "cadence": 0.60, "cout_amelioration": null }
       ],
       "projectile": { "vitesse": 420, "couleur": "#e8f4a0" }
+    },
+
+    "cristal": {
+      "nom": "Tour de cristal",
+      "_note": "Elle frappe FAIBLE mais en ZONE. Posée devant un ennemi isolé, elle est un mauvais achat et doit le rester : son intérêt n'apparaît qu'à partir de trois ou quatre ennemis serrés. C'est la première fois que le joueur choisit une tour pour la FORME d'une vague, et non pour sa puissance.",
+      "couleur": "#8fb4ff",
+      "cout": 80,
+      "niveaux": [
+        { "degats": 5,  "portee": 100, "cadence": 1.10, "rayon_zone": 46, "cout_amelioration": 90 },
+        { "degats": 8,  "portee": 108, "cadence": 1.00, "rayon_zone": 54, "cout_amelioration": 140 },
+        { "degats": 12, "portee": 118, "cadence": 0.90, "rayon_zone": 62, "cout_amelioration": null }
+      ],
+      "projectile": { "vitesse": 300, "couleur": "#bcd4ff" }
+    },
+
+    "canon": {
+      "nom": "Canon de siège",
+      "_note": "Un seul gros coup, lent, et qui titube l'ennemi touché. Il est très mauvais contre une foule rapide — il tire une fois et le reste est déjà passé. Face à l'arbre blindé, il est la seule réponse : l'armure retire un montant FIXE à chaque coup, donc elle ruine mille petites flèches et ne gratte presque rien sur un boulet.",
+      "couleur": "#e0a45f",
+      "cout": 110,
+      "niveaux": [
+        { "degats": 34, "portee": 125, "cadence": 2.20, "cout_amelioration": 120 },
+        { "degats": 52, "portee": 135, "cadence": 2.00, "cout_amelioration": 180 },
+        { "degats": 78, "portee": 145, "cadence": 1.80, "cout_amelioration": null }
+      ],
+      "visee": "plus_resistant",
+      "ralentissement": { "facteur": 0.6, "duree": 1.2 },
+      "projectile": { "vitesse": 260, "couleur": "#ffd9a0" }
     }
   },
 
   "ennemis": {
     "gobelin": {
       "nom": "Gobelin des bois",
+      "_note": "Le mètre-étalon. Tout le reste se lit par rapport à lui : deux fois plus lent que le loup, quatre fois moins résistant que l'arbre.",
       "couleur": "#7cc45a",
       "vie": 40,
       "vitesse": 46,
       "prime": 8,
       "degats_sortie": 1,
       "rayon": 11
+    },
+
+    "loup": {
+      "nom": "Loup famélique",
+      "_note": "Fragile, mais deux fois plus rapide qu'un gobelin. Il ne teste pas les dégâts du joueur, il teste sa CADENCE : une tour lente le voit passer. Un archer de niveau 1 ne l'abat pas tout seul — il en faut deux, ou une amélioration. C'est la leçon du niveau 2.",
+      "couleur": "#a878e0",
+      "vie": 26,
+      "vitesse": 94,
+      "prime": 10,
+      "degats_sortie": 1,
+      "rayon": 10
+    },
+
+    "arbre": {
+      "nom": "Arbre possédé",
+      "_note": "Lent, énorme, et ARMURÉ : chaque coup reçu perd 12 points avant de compter. Une flèche de niveau 1 (8) et une de niveau 2 (14) lui font donc 1 et 2 — des piqûres. Un boulet de canon (34) lui en fait 22. C'est un mur qui ne se franchit pas en montant les mêmes tours, seulement en changeant d'outil. S'il sort, il coûte 4 vies : cinq arbres qui passent suffisent à faire tomber la source, et c'est ce qui rend la mauvaise réponse mortelle au lieu d'être seulement coûteuse. Ces trois chiffres (vie, armure, vitesse) tiennent ensemble : sa lenteur lui vaut une longue exposition, donc il faut que les piqûres N'ABOUTISSENT PAS avant l'arrivée. C'est vérifié à chaque essai — voir `verifier.sh`.",
+      "couleur": "#8a6b45",
+      "vie": 170,
+      "vitesse": 24,
+      "armure": 12,
+      "prime": 32,
+      "degats_sortie": 4,
+      "rayon": 16
     }
   },
 
-  "_a_venir": {
-    "_note": "Débloqués aux niveaux suivants — voir la courbe de progression. Laissés ici pour mémoire, le niveau 1 ne les utilise pas.",
-    "loup": { "vie": 26, "vitesse": 92, "prime": 10, "degats_sortie": 1, "rayon": 10, "couleur": "#a878e0" },
-    "arbre": { "vie": 160, "vitesse": 24, "prime": 25, "degats_sortie": 3, "rayon": 16, "couleur": "#8a6b45" }
-  }
+  "_armure": "Réduction FIXE par coup, jamais un pourcentage. Un pourcentage se compense en améliorant ce qu'on a déjà ; un montant fixe oblige à changer de tour. C'est tout l'intérêt du niveau 4."
 }

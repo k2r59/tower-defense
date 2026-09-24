@@ -28,6 +28,12 @@ var ameliorations: Dictionary = {}
 
 func _ready() -> void:
 	charger()
+	# `--neuf` : on repart d'une sauvegarde vide. Les tests s'en servent pour
+	# vérifier la règle d'or — chaque niveau doit se gagner avec ZÉRO
+	# amélioration. Sans ça, un test qui passe ne prouverait que la machine de
+	# celui qui l'a lancé.
+	if "--neuf" in OS.get_cmdline_user_args():
+		effacer()
 
 
 func charger() -> void:

@@ -1,0 +1,49 @@
+{
+  "_lisez_moi": "Niveau 3 — la tour de cristal. La première fois qu'on choisit une tour pour la FORME d'une vague et non pour sa puissance.",
+  "_lecon": "Le cristal frappe faible et en zone. Contre un ennemi isolé c'est un mauvais achat, et le niveau doit le prouver : les premières vagues sont espacées, le cristal y paraît inutile. Puis arrivent les meutes serrées, et la même tour devient la meilleure du terrain sans qu'un seul chiffre ait bougé.",
+  "_ecran": "Paysage, 844 × 390. Une épingle à cheveux au tiers du parcours : une tour posée dans son creux couvre l'aller ET le retour, donc deux fois plus d'ennemis à la fois. C'est la place que le cristal réclame.",
+
+  "id": "niveau-03",
+  "nom": "Les pierres dressées",
+
+  "vies": 20,
+  "or_depart": 220,
+
+  "tours": [ "archers", "cristal" ],
+
+  "chemin": [
+    [ -40,  60],
+    [ 200,  60],
+    [ 200, 200],
+    [ 120, 200],
+    [ 120, 330],
+    [ 520, 330],
+    [ 520, 150],
+    [ 680, 150],
+    [ 680, 320],
+    [ 884, 320]
+  ],
+
+  "_emplacements": "Le deuxième est dans le creux de l'épingle : c'est le seul du niveau qui voie deux segments à la fois, et c'est celui qui fait gagner. Un joueur qui n'y pose rien peut encore gagner, mais il paiera en or.",
+  "emplacements": [
+    [ 270, 130],
+    [ 180, 265],
+    [ 300, 265],
+    [ 440, 265],
+    [ 590, 240],
+    [ 600,  90],
+    [ 760, 255]
+  ],
+
+  "solution": [ "archers", "cristal", "cristal", "archers", "archers", "archers", "archers" ],
+
+  "vagues": [
+    { "pause": 4.0, "groupes": [ { "type": "gobelin", "nombre": 6,  "intervalle": 1.2 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "gobelin", "nombre": 8,  "intervalle": 0.45 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "loup",    "nombre": 8,  "intervalle": 0.40 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "gobelin", "nombre": 12, "intervalle": 0.35 },
+                                 { "type": "loup",    "nombre": 5,  "intervalle": 0.9 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "gobelin", "nombre": 16, "intervalle": 0.30 },
+                                 { "type": "loup",    "nombre": 10, "intervalle": 0.35 } ] }
+  ]
+}

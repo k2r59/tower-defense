@@ -8,6 +8,9 @@
   "vies": 20,
   "or_depart": 120,
 
+  "_tours": "Une seule famille, volontairement. Un menu d'un seul choix n'est pas un choix : tant qu'il n'y a que les archers, toucher un emplacement construit, point.",
+  "tours": [ "archers" ],
+
   "chemin": [
     [ -40, 120],
     [ 150, 120],
@@ -28,6 +31,9 @@
     [ 545,  48],
     [ 672, 238]
   ],
+
+  "_solution": "Une solution qui gagne, une famille par emplacement. Elle sert au test automatique : si un réglage la rend perdante, c'est le réglage qui est faux, et on le sait avant le joueur.",
+  "solution": [ "archers", "archers", "archers", "archers", "archers", "archers" ],
 
   "vagues": [
     { "pause": 4.0, "groupes": [ { "type": "gobelin", "nombre": 4,  "intervalle": 1.4 } ] },

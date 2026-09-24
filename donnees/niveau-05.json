@@ -1,0 +1,62 @@
+{
+  "_lisez_moi": "Niveau 5 — les racines. Tout ce qui a été appris revient, plus une chose qui ne s'achète pas.",
+  "_lecon": "Les racines ne tuent personne : elles immobilisent tout le monde, deux fois par niveau. Le joueur ne gagne pas de puissance, il gagne du TEMPS, et c'est à lui de décider quelle seconde mérite d'être payée avec une des deux charges. La meilleure défense n'est pas toujours une tour — c'est la dernière leçon de la région.",
+  "_ecran": "Paysage, 844 × 390. Le tracé le plus long du lot, en accordéon : il donne aux racines de quoi être utiles, et à l'arbre de quoi rester sous le feu.",
+
+  "id": "niveau-05",
+  "nom": "La source corrompue",
+
+  "vies": 20,
+  "or_depart": 340,
+
+  "tours": [ "archers", "cristal", "canon" ],
+
+  "racines": {
+    "_note": "Deux charges, pas dix. Une ressource qu'on peut dépenser sans y penser ne se pense jamais ; deux obligent à attendre le bon moment.",
+    "charges": 2,
+    "duree": 3.5
+  },
+
+  "chemin": [
+    [ -40, 340],
+    [ 120, 340],
+    [ 120, 110],
+    [ 300, 110],
+    [ 300, 300],
+    [ 470, 300],
+    [ 470,  90],
+    [ 640,  90],
+    [ 640, 300],
+    [ 884, 300]
+  ],
+
+  "_emplacements": "Neuf, et le tracé est long : la défense doit être répartie, pas empilée à l'entrée. Un mur unique laisse passer l'arbre, qui a le temps de traverser pendant que les tours rechargent.",
+  "emplacements": [
+    [  60, 225],
+    [ 185, 225],
+    [ 210,  60],
+    [ 370, 200],
+    [ 390, 360],
+    [ 535, 190],
+    [ 560,  35],
+    [ 710, 195],
+    [ 740, 360]
+  ],
+
+  "solution": [ "archers", "cristal", "archers", "canon", "cristal", "canon", "archers", "canon", "archers" ],
+
+  "vagues": [
+    { "pause": 4.0, "groupes": [ { "type": "gobelin", "nombre": 10, "intervalle": 0.7 },
+                                 { "type": "loup",    "nombre": 4,  "intervalle": 0.9 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "arbre",   "nombre": 1,  "intervalle": 6.0 },
+                                 { "type": "gobelin", "nombre": 10, "intervalle": 0.5 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "loup",    "nombre": 16, "intervalle": 0.32 },
+                                 { "type": "arbre",   "nombre": 2,  "intervalle": 6.0 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "arbre",   "nombre": 2,  "intervalle": 6.5 },
+                                 { "type": "gobelin", "nombre": 18, "intervalle": 0.35 },
+                                 { "type": "loup",    "nombre": 8,  "intervalle": 0.5 } ] },
+    { "pause": 8.0, "groupes": [ { "type": "arbre",   "nombre": 4,  "intervalle": 5.0 },
+                                 { "type": "loup",    "nombre": 20, "intervalle": 0.28 },
+                                 { "type": "gobelin", "nombre": 24, "intervalle": 0.28 } ] }
+  ]
+}

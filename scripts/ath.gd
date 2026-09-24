@@ -9,6 +9,8 @@ extends CanvasLayer
 
 signal demande_amelioration
 signal demande_reprise
+signal demande_construction(famille: String)
+signal demande_racines
 signal demande_rejouer
 signal demande_carte
 
@@ -29,6 +31,12 @@ var _panneau: PanelContainer
 var _titre_tour: Label
 var _ameliorer: Button
 var _vendre: Button
+
+var _construction: PanelContainer
+var _choix: VBoxContainer
+
+var _racines: Button
+var _commandes: HBoxContainer
 
 var _fin: PanelContainer
 var _texte_fin: Label
@@ -56,7 +64,10 @@ func _ready() -> void:
 
 	var commandes := HBoxContainer.new()
 	commandes.add_theme_constant_override("separation", 8)
+	# Posée à droite, et recalée dans `preparer` : la rangée n'a pas la même
+	# largeur selon que le niveau propose les racines ou non.
 	commandes.position = Vector2(700, 8)
+	_commandes = commandes
 	add_child(commandes)
 	_pause = _bouton("❚❚", _basculer_pause)
 	_vitesse = _bouton("▶▶", _basculer_vitesse)
@@ -69,8 +80,21 @@ func _ready() -> void:
 	_message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_message)
 
+	_racines = _bouton("✷", func() -> void: demande_racines.emit())
+	_racines.custom_minimum_size = Vector2(74, 34)
+	_racines.visible = false
+	commandes.add_child(_racines)
+
 	_construire_panneau_tour()
+	_construire_panneau_construction()
 	_construire_panneau_fin()
+
+
+## Ce que ce niveau-ci affiche en plus. Le niveau 1 n'a ni racines ni choix de
+## tour : on ne montre pas un bouton pour dire qu'il ne sert à rien.
+func preparer(jeu: Node) -> void:
+	_racines.visible = jeu.racines_restantes > 0
+	_commandes.position.x = 618.0 if _racines.visible else 700.0
 
 
 # --- Les briques ----------------------------------------------------------
@@ -134,6 +158,8 @@ func _construire_panneau_tour() -> void:
 
 ## Ouvre le panneau sur une tour, ou le referme si l'on passe `null`.
 func montrer_tour(tour: Tour, argent: int) -> void:
+	if tour != null:
+		cacher_construction()
 	if tour == null:
 		_panneau.visible = false
 		return
@@ -149,6 +175,52 @@ func montrer_tour(tour: Tour, argent: int) -> void:
 		_ameliorer.disabled = argent < cout
 	_vendre.text = "Vendre  +%d" % tour.valeur_reprise()
 	_panneau.visible = true
+
+
+# --- Le panneau de construction -------------------------------------------
+
+## Quel type de tour poser.
+##
+## Il n'apparaît qu'à partir du moment où le niveau en propose deux. Et il
+## affiche les PRIX, pas seulement les noms : à cet instant le joueur compare
+## des dépenses, il ne choisit pas une couleur.
+func _construire_panneau_construction() -> void:
+	_construction = _cadre()
+	_construction.visible = false
+	add_child(_construction)
+
+	_choix = VBoxContainer.new()
+	_choix.add_theme_constant_override("separation", 5)
+	_construction.add_child(_choix)
+
+
+func montrer_construction(familles: Array, equilibrage: Dictionary, argent: int, ou: Vector2) -> void:
+	for enfant in _choix.get_children():
+		enfant.queue_free()
+
+	for famille: String in familles:
+		var reglages: Dictionary = equilibrage["tours"].get(famille, {})
+		var cout := int(reglages.get("cout", 0))
+		var b := _bouton("%s  ◆%d" % [str(reglages.get("nom", famille)), cout],
+				func() -> void: demande_construction.emit(famille))
+		b.custom_minimum_size = Vector2(168, 30)
+		b.add_theme_font_size_override("font_size", 13)
+		b.disabled = argent < cout
+		_choix.add_child(b)
+
+	# Le panneau se pose à côté de l'emplacement, pas au même endroit à chaque
+	# fois : le pouce est déjà là, et on garde le terrain visible.
+	_construction.visible = true
+	_construction.reset_size()
+	var taille := Vector2(196, 36 * familles.size() + 24)
+	var coin := ou + Vector2(28, -taille.y * 0.5)
+	coin.x = clampf(coin.x, 8.0, 844.0 - taille.x - 8.0)
+	coin.y = clampf(coin.y, 44.0, 390.0 - taille.y - 8.0)
+	_construction.position = coin
+
+
+func cacher_construction() -> void:
+	_construction.visible = false
 
 
 # --- Le panneau de fin ----------------------------------------------------
@@ -184,6 +256,7 @@ func _construire_panneau_fin() -> void:
 
 func montrer_fin(gagne: bool, bilan: Dictionary) -> void:
 	_panneau.visible = false
+	_construction.visible = false
 	var lignes: Array[String] = []
 	if gagne:
 		var etoiles := int(bilan.get("etoiles", 0))
@@ -220,6 +293,7 @@ func _basculer_vitesse() -> void:
 func figer_commandes() -> void:
 	_pause.disabled = true
 	_vitesse.disabled = true
+	_racines.disabled = true
 	get_tree().paused = false
 	Engine.time_scale = 1.0
 
@@ -229,6 +303,11 @@ func rafraichir(jeu: Node) -> void:
 	_vies.text = "♥ %d" % jeu.vies
 	_or.text = "◆ %d" % jeu.argent
 	_vague.text = "vague %d/%d" % [jeu.vague, total]
+	if _racines.visible:
+		# On écrit le nombre de charges sur le bouton : une réserve qu'on ne
+		# compte pas est une réserve qu'on n'ose pas dépenser.
+		_racines.text = "✷ %d" % jeu.racines_restantes
+		_racines.disabled = jeu.racines_restantes <= 0
 
 
 func dire(texte: String) -> void:

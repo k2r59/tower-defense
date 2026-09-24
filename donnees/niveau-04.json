@@ -1,0 +1,51 @@
+{
+  "_lisez_moi": "Niveau 4 — l'arbre possédé, et le canon qui lui répond. C'est le premier mur du jeu : il ne se franchit pas en améliorant ce qu'on a déjà.",
+  "_lecon": "L'armure retire un montant FIXE à chaque coup. Une flèche de niveau 1 (8 dégâts) ne fait donc plus qu'un point à un arbre armuré de 7 ; un boulet de canon (34) en fait 27. Le joueur qui monte ses archers voit ses chiffres grimper et l'arbre avancer quand même — jusqu'à ce qu'il comprenne qu'il lui faut un autre outil, pas un outil plus gros.",
+  "_ecran": "Paysage, 844 × 390. Le tracé est court et large : l'arbre est lent, il faut qu'il reste longtemps sous le feu, sinon le niveau ne se joue plus, il se subit.",
+
+  "id": "niveau-04",
+  "nom": "Le val d'écorce",
+
+  "vies": 20,
+  "or_depart": 380,
+
+  "tours": [ "archers", "cristal", "canon" ],
+
+  "chemin": [
+    [ -40, 200],
+    [ 160, 200],
+    [ 160,  60],
+    [ 380,  60],
+    [ 380, 330],
+    [ 600, 330],
+    [ 600, 160],
+    [ 884, 160]
+  ],
+
+  "_emplacements": "Huit, parce qu'il faut de la place pour DEUX défenses : celle qui nettoie la piétaille et celle qui ouvre l'écorce. Un niveau qui n'a de place que pour une seule ne pose pas de question, il impose une réponse.",
+  "emplacements": [
+    [ 100, 130],
+    [ 225, 125],
+    [ 320, 200],
+    [ 445, 115],
+    [ 440, 260],
+    [ 520, 265],
+    [ 670, 240],
+    [ 760, 225]
+  ],
+
+  "solution": [ "archers", "canon", "archers", "canon", "cristal", "archers", "canon", "archers" ],
+
+  "vagues": [
+    { "pause": 4.0, "groupes": [ { "type": "gobelin", "nombre": 8,  "intervalle": 0.9 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "arbre",   "nombre": 1,  "intervalle": 2.0 },
+                                 { "type": "gobelin", "nombre": 6,  "intervalle": 0.8 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "loup",    "nombre": 10, "intervalle": 0.45 },
+                                 { "type": "arbre",   "nombre": 1,  "intervalle": 3.0 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "arbre",   "nombre": 2,  "intervalle": 6.0 },
+                                 { "type": "gobelin", "nombre": 12, "intervalle": 0.5 } ] },
+    { "pause": 8.0, "groupes": [ { "type": "arbre",   "nombre": 2,  "intervalle": 7.0 },
+                                 { "type": "loup",    "nombre": 10, "intervalle": 0.45 },
+                                 { "type": "gobelin", "nombre": 14, "intervalle": 0.35 } ] }
+  ]
+}

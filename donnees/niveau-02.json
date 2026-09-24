@@ -1,0 +1,47 @@
+{
+  "_lisez_moi": "Niveau 2 — le loup. Une seule idée nouvelle : un ennemi deux fois plus rapide. Rien d'autre ne change, pas même la tour disponible, pour que la leçon soit lisible.",
+  "_lecon": "La CADENCE, pas les dégâts. Un archer de niveau 1 tire assez lentement pour qu'un loup traverse sa portée en n'encaissant que trois flèches — une de moins qu'il n'en faut. Le joueur doit donc doubler une position ou améliorer, et il découvre que « plus fort » et « plus souvent » ne sont pas la même chose.",
+  "_ecran": "Paysage, 844 × 390. Deux longues lignes droites : c'est là que la vitesse du loup se voit, et que l'on comprend pourquoi une tour lente ne suffit pas.",
+
+  "id": "niveau-02",
+  "nom": "La clairière basse",
+
+  "vies": 20,
+  "or_depart": 130,
+
+  "tours": [ "archers" ],
+
+  "chemin": [
+    [ -40, 300],
+    [ 140, 300],
+    [ 140,  90],
+    [ 420,  90],
+    [ 420, 300],
+    [ 700, 300],
+    [ 700, 120],
+    [ 884, 120]
+  ],
+
+  "_emplacements": "50 à 70 px du tracé, comme partout : à cette distance une tour de portée 115 couvre un ARC, donc plusieurs secondes de trajet. Plus loin, elle ne tire que deux fois par passage et le loup s'en va.",
+  "emplacements": [
+    [  85, 195],
+    [ 205, 155],
+    [ 340, 155],
+    [ 480, 195],
+    [ 560, 240],
+    [ 640, 235],
+    [ 760, 215]
+  ],
+
+  "solution": [ "archers", "archers", "archers", "archers", "archers", "archers", "archers" ],
+
+  "vagues": [
+    { "pause": 4.0, "groupes": [ { "type": "gobelin", "nombre": 5,  "intervalle": 1.3 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "loup",    "nombre": 3,  "intervalle": 1.6 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "gobelin", "nombre": 7,  "intervalle": 1.1 },
+                                 { "type": "loup",    "nombre": 3,  "intervalle": 1.4 } ] },
+    { "pause": 6.0, "groupes": [ { "type": "loup",    "nombre": 6,  "intervalle": 1.0 } ] },
+    { "pause": 7.0, "groupes": [ { "type": "gobelin", "nombre": 10, "intervalle": 0.8 },
+                                 { "type": "loup",    "nombre": 7,  "intervalle": 0.9 } ] }
+  ]
+}

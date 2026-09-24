@@ -77,8 +77,17 @@ func _ready() -> void:
 	_rafraichir_essences()
 
 	# En mode d'essai, on ne s'arrête pas sur la carte : le test joue un niveau.
+	# `--niveau=niveau-04` choisit lequel ; sans précision, le premier.
 	if "--test" in OS.get_cmdline_user_args():
-		_lancer("niveau-01")
+		_lancer(_niveau_demande())
+
+
+## Le niveau réclamé en ligne de commande, pour les essais sans écran.
+func _niveau_demande() -> String:
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("--niveau="):
+			return arg.substr("--niveau=".length())
+	return "niveau-01"
 
 
 func _texte(contenu: String, taille: int, couleur: Color) -> Label:
@@ -134,8 +143,8 @@ func _carton(niveau: Dictionary, etoiles: int, ouvert: bool) -> Control:
 
 
 func _lancer(id: String) -> void:
-	# Le niveau 1 est le seul écrit pour l'instant. Les autres arriveront avec
-	# leurs ennemis ; d'ici là, mieux vaut le dire que d'ouvrir un écran vide.
+	# Mieux vaut le dire que d'ouvrir un écran vide : un niveau annoncé sur la
+	# carte et absent des données se lit comme une panne.
 	if not FileAccess.file_exists("res://donnees/%s.json" % id):
 		_essences.text = "Ce niveau n'existe pas encore"
 		return
