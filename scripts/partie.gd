@@ -17,6 +17,10 @@ var essences: int = 0
 ## Ce qu'on a fait de chaque niveau : { "niveau-01": { "etoiles": 2 } }.
 var niveaux: Dictionary = {}
 
+## Le niveau que la carte vient de lancer. C'est la seule chose que la carte
+## dit au jeu : le reste, il le lit dans ses données.
+var niveau_choisi: String = "niveau-01"
+
 ## Les nœuds d'amélioration achetés. Vide tant que l'arbre n'existe pas —
 ## il ne s'ouvre qu'après le deuxième niveau, pour ne pas noyer le joueur.
 var ameliorations: Dictionary = {}

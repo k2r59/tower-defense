@@ -8,7 +8,6 @@ extends Node2D
 ## en touchant au code — c'est ce qui permet d'essayer dix réglages dans une
 ## soirée.
 
-const CHEMIN_NIVEAU := "res://donnees/niveau-01.json"
 const CHEMIN_EQUILIBRAGE := "res://donnees/equilibrage.json"
 
 ## De quoi attraper un emplacement au pouce : la cible tactile est plus large
@@ -31,11 +30,16 @@ var _fini := false
 var _spawn_en_cours := false
 var _longueur_chemin: float = 0.0
 
+## La tour dont le panneau est ouvert. Toucher une tour la SÉLECTIONNE au lieu
+## de l'améliorer aussitôt : on doit pouvoir regarder ce qu'elle coûte, et
+## pouvoir la vendre, avant de décider.
+var _selection: Tour = null
+
 @onready var ath: CanvasLayer = $ATH
 
 
 func _ready() -> void:
-	niveau = _lire_json(CHEMIN_NIVEAU)
+	niveau = _lire_json("res://donnees/%s.json" % Partie.niveau_choisi)
 	equilibrage = _lire_json(CHEMIN_EQUILIBRAGE)
 
 	for point: Array in niveau["chemin"]:
@@ -52,6 +56,11 @@ func _ready() -> void:
 	vies_depart = int(niveau["vies"])
 	vies = vies_depart
 	argent = int(niveau["or_depart"])
+
+	ath.demande_amelioration.connect(_sur_amelioration)
+	ath.demande_reprise.connect(_sur_reprise)
+	ath.demande_rejouer.connect(func() -> void: get_tree().reload_current_scene())
+	ath.demande_carte.connect(func() -> void: get_tree().change_scene_to_file("res://scenes/carte.tscn"))
 
 	ath.rafraichir(self)
 	_lancer_vagues()
@@ -136,6 +145,8 @@ func _terminer(gagne: bool) -> void:
 	if _fini:
 		return
 	_fini = true
+	_selectionner(null)
+	ath.figer_commandes()
 	var bilan := {}
 	if gagne:
 		bilan = Partie.terminer_niveau(str(niveau["id"]), vies, vies_depart, argent)
@@ -189,13 +200,54 @@ func _toucher(point: Vector2) -> void:
 		if emp["tour"] == null:
 			_construire(emp, "archers")
 		else:
-			_ameliorer(emp)
+			_selectionner(emp["tour"])
 		return
-	# Un toucher dans le vide referme les cercles de portée : sinon l'écran
-	# se couvre de halos au bout de trois tours.
+	# Un toucher dans le vide referme la sélection : sinon l'écran se couvre
+	# de halos de portée au bout de trois tours.
+	_selectionner(null)
+
+
+func _selectionner(tour: Tour) -> void:
+	if _selection != null and is_instance_valid(_selection):
+		_selection.montrer_portee(false)
+	_selection = tour
+	if tour != null:
+		tour.montrer_portee(true)
+	ath.montrer_tour(tour, argent)
+
+
+func _emplacement_de(tour: Tour) -> Dictionary:
 	for emp: Dictionary in emplacements:
-		if emp["tour"] != null:
-			emp["tour"].montrer_portee(false)
+		if emp["tour"] == tour:
+			return emp
+	return {}
+
+
+func _sur_amelioration() -> void:
+	if _selection == null or not is_instance_valid(_selection):
+		return
+	_ameliorer(_emplacement_de(_selection))
+	ath.montrer_tour(_selection, argent)
+
+
+## Vendre.
+##
+## C'est la seconde leçon du premier niveau, avec « poser » : un joueur doit
+## pouvoir se tromper de place sans perdre sa partie. La reprise ne rend pas
+## tout — sinon le placement n'aurait plus de conséquence.
+func _sur_reprise() -> void:
+	if _selection == null or not is_instance_valid(_selection):
+		return
+	var emp := _emplacement_de(_selection)
+	if emp.is_empty():
+		return
+	argent += _selection.valeur_reprise()
+	var t := _selection
+	_selectionner(null)
+	emp["tour"] = null
+	t.queue_free()
+	ath.rafraichir(self)
+	queue_redraw()
 
 
 func _construire(emp: Dictionary, famille: String) -> bool:
@@ -213,13 +265,16 @@ func _construire(emp: Dictionary, famille: String) -> bool:
 	t.veut_tirer.connect(_sur_tir)
 	t.montrer_portee(true)
 	emp["tour"] = t
+	_selectionner(t)
 	ath.rafraichir(self)
+	queue_redraw()
 	return true
 
 
 func _ameliorer(emp: Dictionary) -> bool:
+	if emp.is_empty():
+		return false
 	var t: Tour = emp["tour"]
-	t.montrer_portee(true)
 	var cout := t.cout_amelioration()
 	if cout < 0:
 		ath.dire("Tour au maximum")
@@ -262,6 +317,20 @@ func _draw() -> void:
 ## les vagues arrivent, les tours tirent, l'or rentre, la partie se termine.
 func _jouer_tout_seul() -> void:
 	Engine.time_scale = 12.0
+
+	# On pose une tour, on la revend, et l'on verifie ce qui revient. La
+	# revente est la seconde lecon du premier niveau : si elle se casse, le
+	# niveau n'enseigne plus ce qu'il annonce.
+	var avant := argent
+	_construire(emplacements[0], "archers")
+	var apres_achat := argent
+	var rendu := _selection.valeur_reprise()
+	_sur_reprise()
+	print("Revente : %d or, achat a %d, rendu %d, solde %d (attendu %d)" % [
+		avant, avant - apres_achat, rendu, argent, apres_achat + rendu])
+	assert(argent == apres_achat + rendu, "La revente ne rend pas ce qu'elle annonce")
+	assert(emplacements[0]["tour"] == null, "L'emplacement reste occupe apres une revente")
+
 	# `--test-passif` : on ne construit rien. La partie DOIT se perdre — un
 	# niveau qu'on gagne sans rien faire n'est pas un niveau.
 	if "--test-passif" in OS.get_cmdline_user_args():
@@ -275,3 +344,4 @@ func _jouer_tout_seul() -> void:
 				_construire(emp, "archers")
 			else:
 				_ameliorer(emp)
+		_selectionner(null)

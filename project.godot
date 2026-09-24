@@ -8,7 +8,7 @@ config_version=5
 [application]
 
 config/name="Les Gardiens des Sources"
-run/main_scene="res://scenes/jeu.tscn"
+run/main_scene="res://scenes/carte.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]

@@ -20,6 +20,10 @@ var portee: float = 115.0
 var cadence: float = 0.8
 var couleur: Color = Color("#5fd39a")
 
+## Tout ce qu'on a mis dedans, achat et ameliorations comprises : c'est sur
+## cette somme que se calcule la reprise.
+var investi: int = 0
+
 var _repos: float = 0.0
 var _angle_canon: float = -PI / 2.0
 var _montre_portee := false
@@ -29,6 +33,7 @@ func construire(famille_choisie: String, reglages_tour: Dictionary) -> void:
 	famille = famille_choisie
 	reglages = reglages_tour
 	couleur = Color(str(reglages.get("couleur", "#5fd39a")))
+	investi = int(reglages.get("cout", 0))
 	_appliquer_niveau(0)
 
 
@@ -36,8 +41,21 @@ func ameliorer() -> bool:
 	var paliers: Array = reglages.get("niveaux", [])
 	if niveau + 1 >= paliers.size():
 		return false
+	investi += maxi(0, cout_amelioration())
 	_appliquer_niveau(niveau + 1)
 	return true
+
+
+## Ce que rend une reprise.
+##
+## Soixante pour cent, pas la totalite : une tour qu'on revend sans perte
+## supprimerait toute consequence au placement, et le jeu n'aurait plus a etre
+## joue, seulement corrige. Mais pas dix pour cent non plus : personne
+## n'oserait essayer quoi que ce soit.
+const PART_REPRISE := 0.6
+
+func valeur_reprise() -> int:
+	return int(floor(investi * PART_REPRISE))
 
 
 ## Ce que coûte le palier suivant, ou -1 s'il n'y en a plus.
